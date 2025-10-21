@@ -1,0 +1,128 @@
+<div class="new-product-upload">
+  <!--Product details field-->
+  <div class="product-details-field">
+    <h2>New product upload</h2>
+    <mat-form-field appearance="fill">
+      <mat-label>Product name</mat-label>
+      <input matInput [(ngModel)]="newProduct().productName" />
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Product description</mat-label>
+      <textarea
+        matInput
+        rows="4"
+        [(ngModel)]="newProduct().productDescription"
+      ></textarea>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Price</mat-label>
+      <input matInput type="number" [(ngModel)]="newProduct().defaultPrice" />
+    </mat-form-field>
+
+    <button mat-raised-button (click)="onUploadNewProduct()">
+      Upload new product
+    </button>
+  </div>
+  <!--File uploader-->
+  <div class="file-uploader">
+    <div>
+      <h3>Select files</h3>
+      <mat-label>Thumbnail image:</mat-label>
+      <input type="file" ng2FileSelect [uploader]="uploader" />
+      <mat-label>Product images:</mat-label>
+      <input type="file" ng2FileSelect [uploader]="uploader" multiple /><br />
+    </div>
+
+    <table class="table">
+      <thead>
+        <tr>
+          <th width="50%">Name</th>
+          <th>Size</th>
+          <th>Progress</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for(item of uploader.queue; track item){
+        <tr>
+          <td>
+            <strong>{{ item?.file?.name }}</strong>
+          </td>
+
+          @if(uploader.options.isHTML5){
+          <td nowrap>
+            {{ item?.file?.size / 1024 / 1024 | number : ".2" }} MB
+          </td>
+          } @if(uploader.options.isHTML5){
+          <td>
+            <div class="progress" style="margin-bottom: 0">
+              <div
+                class="progress-bar"
+                role="progressbar"
+                [ngStyle]="{ width: item.progress + '%' }"
+              ></div>
+            </div>
+          </td>
+          }
+          <td class="text-center">
+            @if(item.isSuccess){
+            <mat-icon>check</mat-icon>
+            } @if(item.isUploading){
+            <mat-icon>cancel</mat-icon>
+
+            } @if(item.isCancel){
+            <mat-icon>error</mat-icon>
+            }
+          </td>
+          <td nowrap>
+            <button
+              type="button"
+              class="btn btn-success btn-xs"
+              (click)="item.upload()"
+              [disabled]="item.isReady || item.isUploading || item.isSuccess"
+            >
+              <span class="glyphicon glyphicon-upload"></span> Upload
+            </button>
+            <button
+              type="button"
+              class="btn btn-warning btn-xs"
+              (click)="item.cancel()"
+              [disabled]="!item.isUploading"
+            >
+              <span class="glyphicon glyphicon-ban-circle"></span> Cancel
+            </button>
+            <button
+              type="button"
+              class="btn btn-danger btn-xs"
+              (click)="item.remove()"
+            >
+              <span class="glyphicon glyphicon-trash"></span> Remove
+            </button>
+          </td>
+        </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<hr />
+<div class="container">
+  @for(product of imgProducts(); track product){
+  <div class="product-card">
+    <div class="img-div">
+      <img
+        [src]="product.productThumbnailImage"
+        alt="{{ product.productName }}"
+      />
+    </div>
+
+    <div class="name-div">
+      <strong class="product-name">{{ product.productName }}</strong>
+    </div>
+  </div>
+  }
+</div>

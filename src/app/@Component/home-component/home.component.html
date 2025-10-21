@@ -1,0 +1,36 @@
+<div class="navbar navbar-expand-lg bg-body-tertiary">
+  <h1>Image uploader</h1>
+  <a href="productlist"
+    ><button mat-raised-button>Image product list</button></a
+  >
+</div>
+
+<div class="container">
+  @for(product of products(); track product){
+  <mat-card>
+    <mat-card-title>{{ product.modelName }}</mat-card-title>
+    <mat-card-subtitle>{{ product.modelType }}</mat-card-subtitle>
+    <mat-card-content>
+      <div
+        [ngSwitch]="product.modelType"
+        [ngStyle]="{
+          width: productCardBoxSize.width,
+          height: productCardBoxSize.height
+        }"
+        class="media-content"
+      >
+        <img *ngSwitchCase="'2D'" [src]="product.imageURL" />
+
+        <THREE-root
+          *ngSwitchCase="'3D'"
+          [boxSize]="productCardBoxSize"
+          [modelSource]="product.imageURL"
+        ></THREE-root>
+      </div>
+      <div class="description-content">
+        <em>{{ product.modelDesc }}</em>
+      </div>
+    </mat-card-content>
+  </mat-card>
+  }
+</div>

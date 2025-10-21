@@ -1,0 +1,43 @@
+.file-uploader {
+  margin: 1rem;
+  border: 1px solid #868484;
+  background-color: #cecbcb;
+  border-radius: 8px;
+  padding: 1rem;
+  width: 30%;
+  min-width: 300px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+
+  mat-card {
+    width: fit-content;
+    margin: 1rem;
+
+    mat-card-content {
+      padding: 1rem;
+      .description-content {
+        width: 300px;
+      }
+      .media-content {
+        width: 300px;
+        height: 300px;
+        border: 1px solid #868484;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+      }
+    }
+  }
+}
